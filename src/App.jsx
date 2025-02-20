@@ -1,7 +1,9 @@
+import Applayout from "../src/Applayout/Applayout"
+import "./App.css";
 const App = () => {
   return(
     <>
-    <a href="https://codexcoders.vercel.app/"><button>Create your Website Today</button></a>
+    <Applayout/>
     </>
   )
 }

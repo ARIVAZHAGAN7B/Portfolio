@@ -1,0 +1,30 @@
+.navbar{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.nav-name1{
+    margin-left: 20px;
+    padding: 0;
+    font-size: 40px;
+}
+.nav-list{
+    position: absolute;
+    right: 20px;
+    list-style: none;
+    display: flex;
+    font-size: 20px;
+    gap: 50px;
+}
+.nav-list li.active::after {
+    transform: scaleX(1); 
+  }
+.nav-list a{
+    text-decoration: none;
+}
+
+hr{
+    padding: 1px 1px;
+    background-color: white;
+}
