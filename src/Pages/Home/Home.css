@@ -1,0 +1,23 @@
+.main-div-home {
+    padding: 20px;
+  }
+  
+  .personal-info {
+    text-align: left;
+    font-size: 24px;
+    font-family: "Courier New", monospace;
+    max-width: 900px;
+    white-space: pre-line; /* Allows new lines */
+    overflow: hidden;
+  }
+  
+  .typing-text {
+    display: inline-block;
+  }
+  
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  
