@@ -13,24 +13,42 @@ const Home = () => {
   const [charIndex, setCharIndex] = useState(0);
   const [typingFirstLine, setTypingFirstLine] = useState(true);
   const [isTyping, setIsTyping] = useState(true);
+  const [audioAllowed, setAudioAllowed] = useState(false); // To allow audio only after user interaction
 
-  const audioRef = useRef(new Audio(typingSound));
+  const audioRef = useRef(null);
+
+  // Initialize audio on first user interaction
+  useEffect(() => {
+    const initAudio = () => {
+      if (!audioRef.current) {
+        audioRef.current = new Audio(typingSound);
+        audioRef.current.volume = 0.2; // Adjust volume
+        audioRef.current.playbackRate = 0.7; // Slow down the sound
+        audioRef.current.preload = "auto";
+      }
+      setAudioAllowed(true); // Allow sound after interaction
+    };
+
+    // Listen for a user click to initialize audio
+    document.addEventListener("click", initAudio, { once: true });
+
+    return () => {
+      document.removeEventListener("click", initAudio);
+    };
+  }, []);
 
   useEffect(() => {
-    const audio = audioRef.current;
-    audio.volume = 0.2; // Adjust volume
-    audio.playbackRate = 1; // Slow down the sound
-    audio.preload = "auto";
+    if (!audioAllowed) return; // Don't play audio until user clicks
 
     const playSound = () => {
-      if (audio.paused) {
-        audio.currentTime = 0;
-        audio.play();
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch((error) => console.error("Audio play blocked:", error));
       }
     };
 
     if (!isTyping) {
-      audio.pause(); // Stop sound when typing is done
+      if (audioRef.current) audioRef.current.pause(); // Stop sound when typing is done
       return;
     }
 
@@ -55,10 +73,10 @@ const Home = () => {
         }, 150);
         return () => clearTimeout(timeout);
       } else {
-        setIsTyping(false); // Stop typing and sound when complete
+        setIsTyping(false);
       }
     }
-  }, [charIndex, typingFirstLine, text, isTyping]);
+  }, [charIndex, typingFirstLine, text, isTyping, audioAllowed]);
 
   return (
     <div className="main-div-home">
